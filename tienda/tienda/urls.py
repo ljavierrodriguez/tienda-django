@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views 
 
@@ -27,4 +29,4 @@ urlpatterns = [
     #path('blog/', views.blog, name="blog")
     path('', views.HomeView.as_view(), name="home"),
     path('blog/', views.BlogView.as_view(), name="blog")
-]
+] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
