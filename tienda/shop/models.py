@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 
 
 #class User(AbstractUser):
@@ -37,3 +38,30 @@ class Product(models.Model):
         
     def __str__(self):
         return self.title
+
+
+class ProductOffer(models.Model):
+    product_id = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    amount_discount = models.FloatField(default=0)
+    start_date = models.DateTimeField(default=timezone.now, null=True)
+    end_date = models.DateTimeField(default=timezone.now, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = "products_offers"
+        
+    def __str__(self):
+        return str(self.product_id)
+
+
+class ProductLike(models.Model):
+    products_id = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    users_id = models.ForeignKey('auth.user', on_delete=models.SET_NULL, null=True)
+    
+    class Meta:
+        db_table = "products_likes"
+        unique_together = ('products_id', 'users_id',)
+        
+    def __str__(self):
+        return str(self.products_id)
