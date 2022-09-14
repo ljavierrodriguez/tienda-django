@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views import View
+from .models import Product
 
 '''
 def home(request):
@@ -35,3 +36,12 @@ class BlogView(View):
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
         return render(request, self.template_name, {})
+    
+    
+class ProductsView(View):
+    template_name='products.html'
+    
+    def get(self, request):
+        products = Product.objects.all().select_related('category_id')
+        print(products)
+        return render(request, self.template_name, {"products": products})

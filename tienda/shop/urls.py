@@ -10,5 +10,6 @@ urlpatterns = [
     #path('', views.home, name="home"),
     #path('blog/', views.blog, name="blog")
     path('', views.HomeView.as_view(), name="home"),
-    path('blog/', views.BlogView.as_view(), name="blog")
+    path('blog/', views.BlogView.as_view(), name="blog"),
+    path('products/', views.ProductsView.as_view(), name="products")
 ]

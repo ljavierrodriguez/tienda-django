@@ -31,6 +31,7 @@ class Product(models.Model):
     price = models.FloatField(default=0)
     description = models.TextField()
     category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    image_file = models.ImageField(upload_to='products/images/', null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     
