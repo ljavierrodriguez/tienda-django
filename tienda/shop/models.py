@@ -1,12 +1,6 @@
-from pydoc import describe
-from pyexpat import model
-from statistics import mode
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import User
-
 
 #class User(AbstractUser):
 #    pass
@@ -20,7 +14,10 @@ class Category(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
     
     class Meta:
-        db_table = "categories"
+        db_table = 'categories'
+        ordering = ('name', )
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
     
     def __str__(self):
         return self.name
@@ -37,6 +34,9 @@ class Product(models.Model):
     
     class Meta:
         db_table = "products"
+        ordering = ('title', )
+        verbose_name = 'product'
+        verbose_name_plural = 'products'
         
     def __str__(self):
         return self.title
@@ -59,7 +59,7 @@ class ProductOffer(models.Model):
 
 class ProductLike(models.Model):
     products_id = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
-    users_id = models.ForeignKey('auth.user', on_delete=models.SET_NULL, null=True)
+    users_id = models.ForeignKey('accounts.User', on_delete=models.SET_NULL, null=True)
     
     class Meta:
         db_table = "products_likes"
