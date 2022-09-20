@@ -9,7 +9,7 @@ class Category(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     is_active = models.BooleanField()
-    category_id = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    category_id = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     

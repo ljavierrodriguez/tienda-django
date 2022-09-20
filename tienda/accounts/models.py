@@ -9,6 +9,6 @@ class User(AbstractUser):
     address = models.CharField(max_length=200, blank=False, null=False)
 
     class Meta:
-        ordering = ('rut',)
+        ordering = ('rut', 'first_name', 'last_name')
         verbose_name = 'user'
         verbose_name_plural = 'users'

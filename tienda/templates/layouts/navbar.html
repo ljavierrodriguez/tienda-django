@@ -8,6 +8,28 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'blog' %}">Blog</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Products</a></li>
                 <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          {% if user.first_name %}
+                                {{ user.first_name }} {{ user.last_name}}
+                          {% else %}
+                                {{ user.username }}
+                          {% endif %}
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'password_change' %}">Cambiar Password</a></li>
+                          {% if 'administrators' in user.groups.all.0.name %}
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Panel Administrativo</a></li>
+                          {% endif %}
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                      </li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'custom.login' %}">Login</a></li>
+                {% endif %}
                 {% comment %} <li class="nav-item"><a class="nav-link" href="pricing.html">Pricing</a></li> {% endcomment %}
                 {% comment %} <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li> {% endcomment %}
                 {% comment %} <li class="nav-item dropdown">
