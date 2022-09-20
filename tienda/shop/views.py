@@ -20,7 +20,7 @@ class HomeView(View):
     template_name='index.html'
     
     def get(self, request):
-        return render(request, self.template_name, { 'name': 'Luis Javier'})
+        return render(request, self.template_name, { 'name': 'Luis Javier', 'languages': ['es', 'en']})
     
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
