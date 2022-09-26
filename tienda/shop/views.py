@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import View
 from .models import Product
-
+from cart.cart import Cart
 '''
 def home(request):
     template_name = "index.html"
@@ -20,7 +20,12 @@ class HomeView(View):
     template_name='index.html'
     
     def get(self, request):
-        return render(request, self.template_name, { 'name': 'Luis Javier', 'languages': ['es', 'en']})
+        cart = Cart(request)
+    
+        data = {
+            "total": cart.__len__()
+        }
+        return render(request, self.template_name, { 'name': 'Luis Javier', 'languages': ['es', 'en'], "cart": data })
     
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
@@ -31,7 +36,12 @@ class BlogView(View):
     template_name='blog.html'
     
     def get(self, request):
-        return render(request, self.template_name, { 'name': 'Luis Javier'})
+        cart = Cart(request)
+    
+        data = {
+            "total": cart.__len__()
+        }
+        return render(request, self.template_name, { 'name': 'Luis Javier', "cart": data })
     
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
@@ -43,5 +53,24 @@ class ProductsView(View):
     
     def get(self, request):
         products = Product.objects.all().select_related('category_id')
+        cart = Cart(request)
+    
+        data = {
+            "total": cart.__len__()
+        }
+        
         print(products)
-        return render(request, self.template_name, {"products": products})
+        return render(request, self.template_name, {"products": products, "cart": data })
+    
+class ProductDetailsView(View):
+    template_name='product_details.html'
+    
+    def get(self, request, id = None):
+        cart = Cart(request)
+    
+        data = {
+            "total": cart.__len__()
+        }
+        product = Product.objects.get(pk=id)
+        print(product)
+        return render(request, self.template_name, {"product": product, "cart": data })
