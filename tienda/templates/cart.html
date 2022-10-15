@@ -1,5 +1,72 @@
 {% extends 'layouts/base.html' %} 
 {% block content %}
 <!-- Cart Detail -->
-<h1>Cart</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 py-4">
+            <h3 class="text-center text-primary">Shopping Cart</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-center align-middle">#</th>
+                    <th scope="col" class="text-center align-middle">Image</th>
+                    <th scope="col" class="text-center align-middle">Product</th>
+                    <th scope="col" class="text-center align-middle">Quantity</th>
+                    <th scope="col" class="text-center align-middle">Remove</th>
+                    <th scope="col" class="text-center align-middle">Unit Price</th>
+                    <th scope="col" class="text-center align-middle">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        {% with product=item.product %}
+                        <tr>
+                            <th scope="row" class="text-center align-middle">1</th>
+                            <td class="text-center align-middle"><img src="{{ product.image_file.url }}" width="100"></td>
+                            <td class="text-center align-middle">{{ product.title }}</td>
+                            <td class="text-center align-middle">
+                                
+                                <form method="post" action="/cart/{{product.id}}/update">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="override_quantity" value="true">
+                                    <div class="input-group">
+                                        <input type="number" name="quantity" value="{{item.quantity}}" min="1" max="100" class="form-control form-control-sm qty-input text-center">
+                                        <button class="btn btn-warning btn-sm" type="submit">
+                                            Update
+                                        </button>
+                                    </div>
+                                    
+                                </form>
+                            </td>
+                            <td class="text-center align-middle">
+                                <form method="post" action="/cart/{{product.id}}/remove">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-dark flex-shrink-0 btn-sm" type="submit">
+                                      Remove
+                                    </button>
+                                </form>
+                            </td>
+                            <td class="text-center align-middle">${{ item.price }}</td>
+                            <td class="text-center align-middle">${{ item.total }}</td>
+                        </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    <tr>
+                         <td class="text-center align-middle"><b>Total:</b></td>
+                         <td colspan="5"></td>
+                         <td class="text-center align-middle">${{ cart.get_total_price }}</td>
+                    </tr>
+                </tbody>
+              </table>
+              <p class="text-end">
+                <a href="{% url 'products' %}" class="btn btn-warning">Continue Shopping</a>
+                <a href="{% url 'products' %}" class="btn btn-info">Checkout</a>
+              </p>
+        </div>
+    </div>
+</div>
 {% endblock %}

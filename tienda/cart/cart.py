@@ -22,7 +22,7 @@ class Cart(object):
             }
             
         if override_quantity:
-            self.cart[product_id]['quantity'] = quantity
+            self.cart[product_id]['quantity'] = int(quantity)
         else:
             self.cart[product_id]['quantity'] =  int(self.cart[product_id]['quantity']) + int(quantity)
             
@@ -48,16 +48,16 @@ class Cart(object):
             
         for item in cart.values():
             item["price"] = Decimal(item["price"])
-            item["total"] = item["price"] * item["quantity"]
+            item["total"] = item["price"] * int(item["quantity"])
             yield item
     
     # metodo para obtener el total de productos en el carrito          
     def __len__(self):
-        return sum(item["quantity"] for item in self.cart.values())
+        return sum(int(item["quantity"]) for item in self.cart.values())
 
     # metodo para obtener el precio total del carrito
     def get_total_price(self):
-        return sum(Decimal(item['price']) * item["quantity"] for item in self.cart.values())
+        return sum(Decimal(item['price']) * int(item["quantity"]) for item in self.cart.values())
     
     # metodo para limpiar el carrito de compra 
     def clear(self):

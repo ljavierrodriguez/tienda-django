@@ -22,10 +22,8 @@ class HomeView(View):
     def get(self, request):
         cart = Cart(request)
     
-        data = {
-            "total": cart.__len__()
-        }
-        return render(request, self.template_name, { 'name': 'Luis Javier', 'languages': ['es', 'en'], "cart": data })
+        total = cart.__len__()
+        return render(request, self.template_name, { 'name': 'Luis Javier', 'languages': ['es', 'en'], "total": total })
     
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
@@ -38,10 +36,8 @@ class BlogView(View):
     def get(self, request):
         cart = Cart(request)
     
-        data = {
-            "total": cart.__len__()
-        }
-        return render(request, self.template_name, { 'name': 'Luis Javier', "cart": data })
+        total = cart.__len__()
+        return render(request, self.template_name, { 'name': 'Luis Javier', "total": total })
     
     # Esta funcion se utiliza si recibo datos por un formulario
     def post(self, request):
@@ -55,22 +51,16 @@ class ProductsView(View):
         products = Product.objects.all().select_related('category_id')
         cart = Cart(request)
     
-        data = {
-            "total": cart.__len__()
-        }
+        total = cart.__len__()
         
         print(products)
-        return render(request, self.template_name, {"products": products, "cart": data })
+        return render(request, self.template_name, {"products": products, "total": total })
     
 class ProductDetailsView(View):
     template_name='product_details.html'
     
     def get(self, request, id = None):
         cart = Cart(request)
-    
-        data = {
-            "total": cart.__len__()
-        }
+        total = cart.__len__()
         product = Product.objects.get(pk=id)
-        print(product)
-        return render(request, self.template_name, {"product": product, "cart": data })
+        return render(request, self.template_name, {"product": product, "total": total })
