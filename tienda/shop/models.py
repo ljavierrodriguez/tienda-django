@@ -67,3 +67,13 @@ class ProductLike(models.Model):
         
     def __str__(self):
         return str(self.products_id)
+    
+    
+class UploadPdf(models.Model):
+    resumes = models.FileField(upload_to="resumes/", blank=True, null=True)
+    
+    class Meta:
+        db_table = "resumes"
+        
+    def __str__(self):
+        return str(self.resumes)

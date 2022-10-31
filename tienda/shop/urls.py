@@ -12,5 +12,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name="home"),
     path('blog/', views.BlogView.as_view(), name="blog"),
     path('products/', views.ProductsView.as_view(), name="products"),
-    path('products/<int:id>/details', views.ProductDetailsView.as_view(), name="products_details")
+    path('products/<int:id>/details', views.ProductDetailsView.as_view(), name="products_details"),
+    path('upload-files/', views.UploadFilesView.as_view(), name="upload"),
+    path('upload-files/<int:id>/delete', views.DeleteUploadFiles.as_view(), name="delete-file"),
 ]

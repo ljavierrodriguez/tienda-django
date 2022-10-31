@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views import View
-from .models import Product
+from .models import Product, UploadPdf
 from cart.cart import Cart
 '''
 def home(request):
@@ -64,3 +64,35 @@ class ProductDetailsView(View):
         total = cart.__len__()
         product = Product.objects.get(pk=id)
         return render(request, self.template_name, {"product": product, "total": total })
+    
+
+class UploadFilesView(View):
+    template_name='upload.html'
+    
+    def get(self, request):
+        cart = Cart(request)
+        total = cart.__len__()
+        
+        files = UploadPdf.objects.all()
+        
+        return render(request, self.template_name, {"total": total, "files": files })
+    
+    def post(self, request):
+        
+        #print(request.POST)
+        #print(request.FILES)
+        files = request.FILES.getlist('file')
+        for file in files:
+            file_instance = UploadPdf(resumes=file)
+            file_instance.save()
+        
+        return redirect('/upload-files/')
+    
+class DeleteUploadFiles(View):
+    def get(self, request, id):
+        
+        file = UploadPdf.objects.get(pk=id)
+        
+        file.delete()
+        
+        return redirect('/upload-files/')
