@@ -30,7 +30,7 @@
             <tr>
                 <td width="2%">{{ file.id }}</td>
                 <td><a href="{{ file.resumes.url }}" download><i class="fas fa-file-pdf fa-4x"></i></a></td>
-                <td>{{ file.resumes }}</td>
+                <td>{{ file.resumes.name }}</td>
                 <td>{{ file.grado }}</td>
                 <td><a href="{% url 'delete-file' file.id %}"><i class="fas fa-trash fa-2x"></i></a></td>
             </tr>
