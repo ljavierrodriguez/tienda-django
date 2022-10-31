@@ -1,7 +1,9 @@
+from django.conf import settings
 from django.shortcuts import redirect, render
 from django.views import View
 from .models import Product, UploadPdf
 from cart.cart import Cart
+import os
 '''
 def home(request):
     template_name = "index.html"
@@ -94,9 +96,9 @@ class UploadFilesView(View):
     
 class DeleteUploadFiles(View):
     def get(self, request, id):
-        
+    
         file = UploadPdf.objects.get(pk=id)
-        
+        os.remove(os.path.join(settings.MEDIA_ROOT, file.resumes.name))
         file.delete()
         
         return redirect('/upload-files/')
