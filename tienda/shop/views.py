@@ -73,17 +73,21 @@ class UploadFilesView(View):
         cart = Cart(request)
         total = cart.__len__()
         
+        grados = [{"id": 1, "name":"Grado 1"}, {"id": 2, "name": "Grado 2"}]
+        #grados = Grado.objects.all()
+        
         files = UploadPdf.objects.all()
         
-        return render(request, self.template_name, {"total": total, "files": files })
+        return render(request, self.template_name, {"total": total, "files": files, "grados": grados })
     
     def post(self, request):
         
         #print(request.POST)
+        grado = request.POST.get("grado")
         #print(request.FILES)
         files = request.FILES.getlist('file')
         for file in files:
-            file_instance = UploadPdf(resumes=file)
+            file_instance = UploadPdf(resumes=file, grado=grado)
             file_instance.save()
         
         return redirect('/upload-files/')

@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -70,6 +71,7 @@ class ProductLike(models.Model):
     
     
 class UploadPdf(models.Model):
+    grado = models.TextField(max_length=200, blank=True, null=True)
     resumes = models.FileField(upload_to="resumes/", blank=True, null=True)
     
     class Meta:
